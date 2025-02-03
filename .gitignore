@@ -175,3 +175,5 @@ cython_debug/
 
 # everything else
 credentials.json
+archive
+settings.json

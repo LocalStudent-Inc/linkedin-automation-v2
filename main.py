@@ -1,15 +1,63 @@
-import json
-from linkedin_api import Linkedin
+from rich.console import Console
+from rich.prompt import Prompt
+
+from settings import DEFAULT_SETTINGS, load_settings, save_settings, update_settings
+
+console = Console()
+settings = DEFAULT_SETTINGS.copy()
+
+def main():
+    global settings
+
+    console.print("[bold blue]LinkedIn Auto-Connect v1.0[/]")
+    console.print("[italic blue]Marco Tan 2025[/]\n")
+    console.print(
+        "This script will attempt to search and connect with people on LinkedIn given user parameters."
+    )
+    console.print("Note the following [bold yellow]limitations[/]:")
+    console.print(
+        "\t1. LinkedIn will block your account if you send too many requests. The script will attempt to avoid this, but be warned."
+    )
+    console.print(
+        "\t2. This script will occasionally require manual intervention for CAPTCHA challenges."
+    )
+    console.print("\t3. The script should be run on a home network to avoid IP blocks.")
+    console.print(
+        "\t4. The script can only search for people within your network and cannot connect with people outside your network."
+    )
+    console.print(
+        "\t5. The script cannot handle Multi-Factor Authentication (MFA) challenges."
+    )
+
+    settings = load_settings()
+
+    if settings == DEFAULT_SETTINGS:
+        settings = update_settings(settings)
+        save_settings(settings)
+
+    while True:
+        choices = {
+            "1": "Update settings",
+            "2": "Start connecting",
+            "3": "Exit",
+        }
+
+        console.print("\n[bold blue]Main Menu[/]")
+        for key, value in choices.items():
+            console.print(f"[bold]{key}[/]. {value}")
+
+        choice = Prompt.ask("Select an option", choices=choices.keys())
+
+        if choice == "1":
+            settings = update_settings(settings)
+            save_settings(settings)
+        elif choice == "2":
+            console.print("\n[bold blue]Connecting...[/]")
+            break
+        elif choice == "3":
+            console.print("\n[bold blue]Exiting...[/]")
+            return
+
 
 if __name__ == "__main__":
-    with open('credentials.json') as f:
-        credentials = json.load(f)
-
-    if credentials:
-        linkedin = Linkedin(credentials['username'], credentials['password'])
-
-        results = linkedin.search_people(keyword_company='LocalStudent', keyword_first_name='Marco', keyword_last_name='Tan', limit=5, include_private_profiles=True)
-        profile = linkedin.get_profile(urn_id=results[0]['urn_id'])
-
-        if profile:
-            linkedin.add_connection(profile['public_id'], message='Hello Marco! My name is Mr. Mohn E. Baggs and I would like to recruit you for a job in Abu Dhabi.');
+    main()
