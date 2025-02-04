@@ -18,7 +18,7 @@ DEFAULT_SETTINGS = {
         "keywordTitle": "",
     },
     "weeklyLimit": 100,
-    "currentWeek": 0,
+    "currentWeekCount": 0,
     "lastUpdated": "",
     "messageTemplate": "",
 }

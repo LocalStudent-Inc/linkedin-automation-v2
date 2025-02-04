@@ -177,3 +177,4 @@ cython_debug/
 credentials.json
 archive
 settings.json
+history.json

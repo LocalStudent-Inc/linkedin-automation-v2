@@ -1,10 +1,13 @@
 from rich.console import Console
 from rich.prompt import Prompt
+from linkedin_api import Linkedin
 
 from settings import DEFAULT_SETTINGS, load_settings, save_settings, update_settings
+from linkedin import format_filters, search_people, load_urn_history, save_urn_history
 
 console = Console()
 settings = DEFAULT_SETTINGS.copy()
+
 
 def main():
     global settings
@@ -53,7 +56,20 @@ def main():
             save_settings(settings)
         elif choice == "2":
             console.print("\n[bold blue]Connecting...[/]")
-            break
+
+            history = load_urn_history()
+
+            client = Linkedin(settings["username"], settings["password"])
+            params = format_filters(settings)
+            foundUrns = search_people(client, params, history, 10)
+            console.print(f"Found {len(foundUrns)} people to connect with.")
+            console.print(foundUrns)
+
+            for urn, name in foundUrns:
+                print(f"Connecting with {name}...")
+                history.append([urn, name])
+
+            save_urn_history(history)
         elif choice == "3":
             console.print("\n[bold blue]Exiting...[/]")
             return
