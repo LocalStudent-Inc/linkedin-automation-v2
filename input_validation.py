@@ -18,7 +18,7 @@ def get_email(settings):
 
 def get_keywords(settings):
     keywords = Prompt.ask(
-        "Enter keywords to search for (separate with commas)",
+        "Enter keywords to search for (separate with spaces)",
         default=settings["searchParams"]["keywords"],
         show_default=settings["searchParams"]["keywords"] != "",
     )

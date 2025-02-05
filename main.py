@@ -1,9 +1,9 @@
 from rich.console import Console
-from rich.prompt import Prompt
+from rich.prompt import Prompt, IntPrompt
 from linkedin_api import Linkedin
 
 from settings import DEFAULT_SETTINGS, load_settings, save_settings, update_settings
-from linkedin import format_filters, search_people, load_urn_history, save_urn_history
+from linkedin import format_filters, search_people, load_urn_history, save_urn_history, connect_with_people
 
 console = Console()
 settings = DEFAULT_SETTINGS.copy()
@@ -55,21 +55,19 @@ def main():
             settings = update_settings(settings)
             save_settings(settings)
         elif choice == "2":
+            num_connect = IntPrompt.ask(
+                "Enter the number of connections to send", default=10
+            )
             console.print("\n[bold blue]Connecting...[/]")
 
             history = load_urn_history()
 
             client = Linkedin(settings["username"], settings["password"])
             params = format_filters(settings)
-            foundUrns = search_people(client, params, history, 10)
-            console.print(f"Found {len(foundUrns)} people to connect with.")
-            console.print(foundUrns)
+            foundUrns = search_people(client, params, history, num_connect)
 
-            for urn, name in foundUrns:
-                print(f"Connecting with {name}...")
-                history.append([urn, name])
-
-            save_urn_history(history)
+            successes = connect_with_people(client, foundUrns, history, settings)
+            console.print(f"\n[bold green]{successes} connections sent![/]\n")
         elif choice == "3":
             console.print("\n[bold blue]Exiting...[/]")
             return
