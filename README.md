@@ -46,6 +46,6 @@ Occasionally, you may be prompted for a `JSESSIONID` and `li_at` cookie. These a
    - For the `JSESSIONID`, you only need the value after the `=` sign, between the `"` characters.
    - For the `li_at`, you only need the value between the `=` and `;` characters.
 
-Below is a video demonstrating how to get the cookies:
+Below is a gif demonstrating how to get the cookies:
 
-![clip](./untitled.mp4)
+![clip](./demo.gif)
