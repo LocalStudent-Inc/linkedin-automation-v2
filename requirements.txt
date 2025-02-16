@@ -1,0 +1,16 @@
+beautifulsoup4==4.13.1
+certifi==2025.1.31
+charset-normalizer==3.4.1
+greenlet==3.1.1
+idna==3.10
+linkedin-api @ git+https://github.com/ArujAnand/linkedin-api@b56e86a5ebc7787b2d5486748017b3591cd94909
+lxml==5.3.0
+markdown-it-py==3.0.0
+mdurl==0.1.2
+pyee==12.1.1
+Pygments==2.19.1
+requests==2.32.3
+rich==13.9.4
+soupsieve==2.6
+typing_extensions==4.12.2
+urllib3==2.3.0
