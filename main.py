@@ -28,9 +28,6 @@ def main():
     console.print(
         "\t4. The script can only search for people within your network and cannot connect with people outside your network."
     )
-    console.print(
-        "\t5. The script cannot handle Multi-Factor Authentication (MFA) challenges."
-    )
 
     settings = load_settings()
 

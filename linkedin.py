@@ -102,18 +102,20 @@ def connect_with_people(client: Linkedin, found_urns, history, settings):
             message = messageTemplate.format(my_first_name=myFirstName, their_first_name=first_name)
 
             # client would be connected here
-            # res = client.add_connection(profile_urn=urn, message=message)
+            res = client.add_connection(profile_public_id='', profile_urn=urn, message=message)
             console.print(f"Message sent to {first_name} with message: {message}!")
-            res = True # dummy response
-
+            
             if res:
-                history.append([urn, name])
                 settings["currentWeekCount"] += 1
                 successful_connections += 1
                 status = "[bold green]Connected[/]"
             else:
                 status = "[bold red]Failed[/]"
                 console.print("\n[bold red]Failed to connect! An unknown error occurred.[/]\n")
+
+            # even if the connection fails, we still add the person to the history
+            # to avoid sending the same message again
+            history.append([urn, name])
 
             table.add_row(name, status, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
